@@ -24,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "1216_hiruddb/lambda.js",
-        "code": "exports.handler = async (event) => {\n    \n    return {\"message\": \"Successfully executed\"};\n};",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nexports.handler = async (event) => {\n    ddb.get({\n        TableName: \"hirutes\",\n        Key: {\n            id: \"1\"\n        }\n    }).promise()\n        .then(data => {\n            // your code goes here\n        })\n        .catch(err => {\n            // error handling goes here\n        });\n\n    return { \"message\": \"Successfully executed\" };\n};",
         "config": {
           "runtime": "nodejs10.x",
           "handler": "handler",
@@ -51,7 +51,12 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": []
+        "triggers": [
+          {
+            "resourceName": "apigusEast1HiruKnew1310put",
+            "config": {}
+          }
+        ]
       },
       "3056ab7c-9e4b-460f-90f9-e351ec84b6fb": {
         "id": "3056ab7c-9e4b-460f-90f9-e351ec84b6fb",
@@ -77,7 +82,7 @@
         "type": "DynamoDB",
         "config": {
           "mode": 0,
-          "operation": "put",
+          "operation": "get",
           "table": {
             "arn": "",
             "name": "hirutes",
@@ -91,12 +96,10 @@
           },
           "isGlobalEditMode": false,
           "parameters": {
-            "Key": {},
-            "Item": {
-              "id": "123",
-              "name": "hiru",
-              "role": "qa"
+            "Key": {
+              "id": "1"
             },
+            "Item": {},
             "ExpressionAttributeValues": {}
           },
           "triggerParams": {},
@@ -105,6 +108,32 @@
             "validity": true
           },
           "valid": true
+        }
+      },
+      "apigusEast1HiruKnew1310put": {
+        "name": "apigusEast1HiruKnew1310put",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "HiruKnew",
+          "apiId": "uxzi5witxl",
+          "endpointType": "EDGE",
+          "rootResourceId": "0inot4adic",
+          "existingResources": {
+            "/": "0inot4adic",
+            "/sample": "p1ct8y"
+          },
+          "resourceMode": 0,
+          "resourceName": "1310",
+          "resourcePath": "/1310",
+          "restMethod": "PUT",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 1,
+          "stageName": "Test",
+          "stageDeploymentId": "g1kd8w",
+          "mode": 1
         }
       }
     },
@@ -138,6 +167,13 @@
           "version": "1.9.6",
           "dev": true,
           "notRemovable": false
+        },
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
         }
       }
     }
@@ -149,7 +185,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1576486757092
+    "lastSave": 1576487257965
   },
   "VCS_STATE": {
     "provider": "GitHub",
