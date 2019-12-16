@@ -1,0 +1,161 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "1ef7302e-2c9f-4c89-bcfb-5b74e47432c0": {
+        "id": "1ef7302e-2c9f-4c89-bcfb-5b74e47432c0",
+        "parent": null,
+        "name": "1216_hiruddb",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "79977339-8e21-407d-b617-b89d9446bbf7",
+          "4bea4c5a-7149-416b-824b-d58bc898e64e",
+          "3056ab7c-9e4b-460f-90f9-e351ec84b6fb"
+        ],
+        "isRemovable": false,
+        "filePath": "1216_hiruddb"
+      },
+      "79977339-8e21-407d-b617-b89d9446bbf7": {
+        "id": "79977339-8e21-407d-b617-b89d9446bbf7",
+        "parent": "1ef7302e-2c9f-4c89-bcfb-5b74e47432c0",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "1216_hiruddb/lambda.js",
+        "code": "exports.handler = async (event) => {\n    \n    return {\"message\": \"Successfully executed\"};\n};",
+        "config": {
+          "runtime": "nodejs10.x",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
+      },
+      "4bea4c5a-7149-416b-824b-d58bc898e64e": {
+        "id": "4bea4c5a-7149-416b-824b-d58bc898e64e",
+        "parent": "1ef7302e-2c9f-4c89-bcfb-5b74e47432c0",
+        "name": "ddbcreator.py",
+        "type": "PYTHON_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "1216_hiruddb/ddbcreator.py",
+        "code": "import boto3\nddb = boto3.client(\"dynamodb\")\n\ndef handler(event, context):\n    try:\n        data = ddb.put_item(\n            TableName=\"hirutes\",\n            Item={\n                'id': {\n                    'S': \"123\"\n                },\n                'name': {\n                    'S': \"hiru\"\n                },\n                'role': {\n                    'S': \"qa\"\n                }\n            }\n        )\n    except BaseException as e:\n        print(e)\n        raise(e)\n    \n    return {\"message\": \"Successfully executed\"}\n",
+        "config": {
+          "runtime": "python3.6",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
+      },
+      "3056ab7c-9e4b-460f-90f9-e351ec84b6fb": {
+        "id": "3056ab7c-9e4b-460f-90f9-e351ec84b6fb",
+        "parent": "1ef7302e-2c9f-4c89-bcfb-5b74e47432c0",
+        "name": "__init__.py",
+        "type": "PYTHON_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "1216_hiruddb/__init__.py",
+        "code": ""
+      }
+    },
+    "rootNode": "1ef7302e-2c9f-4c89-bcfb-5b74e47432c0",
+    "openFiles": [
+      "79977339-8e21-407d-b617-b89d9446bbf7",
+      "4bea4c5a-7149-416b-824b-d58bc898e64e"
+    ],
+    "currentFileId": "4bea4c5a-7149-416b-824b-d58bc898e64e",
+    "resources": {
+      "ddbhirutes": {
+        "name": "ddbhirutes",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "operation": "put",
+          "table": {
+            "arn": "",
+            "name": "hirutes",
+            "partitionKey": "id",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
+            "sortKeyType": "S",
+            "payPerRequest": true,
+            "mode": 0
+          },
+          "isGlobalEditMode": false,
+          "parameters": {
+            "Key": {},
+            "Item": {
+              "id": "123",
+              "name": "hiru",
+              "role": "qa"
+            },
+            "ExpressionAttributeValues": {}
+          },
+          "triggerParams": {},
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      },
+      {
+        "lambdaId": "4bea4c5a-7149-416b-824b-d58bc898e64e",
+        "varKey": "PYTHONPATH",
+        "varValue": "/var/runtime:/var/task/1216_hiruddb",
+        "shouldPersist": true,
+        "displayOnly": false,
+        "editable": true
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "boto3": {
+          "name": "boto3",
+          "language": "python",
+          "version": "1.9.6",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "1216_hiruddb",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1576486757092
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "1216_hiruddb",
+      "url": "https://github.com/HirudineeADRT/1216_hiruddb"
+    }
+  }
+}
