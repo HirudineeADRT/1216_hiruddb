@@ -2,23 +2,26 @@ import boto3
 ddb = boto3.client("dynamodb")
 
 def handler(event, context):
+
     try:
-        data = ddb.put_item(
-            TableName="hirutes",
-            Item={
-                'id': {
-                    'S': "123"
+        data = ddb.scan(
+            TableName="hirutest",
+            ExpressionAttributeValues={
+                ':c': {
+                    'S': "balck"
                 },
-                'name': {
-                    'S': "hiru"
-                },
-                'role': {
-                    'S': "qa"
+                ':p': {
+                    'S': "500"
                 }
-            }
+            },
+            FilterExpression="colour = :c and price < :p"
         )
     except BaseException as e:
         print(e)
         raise(e)
+
+
+
+
     
-    return {"message": "Successfully executed"}
+    return {"message": data}

@@ -24,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "1216_hiruddb/lambda.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nexports.handler = async (event) => {\n    ddb.get({\n        TableName: \"hirutes\",\n        Key: {\n            id: \"1\"\n        }\n    }).promise()\n        .then(data => {\n            // your code goes here\n        })\n        .catch(err => {\n            // error handling goes here\n        });\n\n    return { \"message\": \"Successfully executed\" };\n};",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nexports.handler = async (event) => {\n    // ddb.get({\n    //     TableName: \"hirutes\",\n    //     Key: {\n    //         id: \"1\"\n    //     }\n    // }).promise()\n    //     .then(data => {\n    //         // your code goes here\n    //     })\n    //     .catch(err => {\n    //         // error handling goes here\n    //     });\n\n    // ddb.scan({\n    //     TableName: \"hirutes\",\n    //     ExpressionAttributeValues: {}\n    // }).promise()\n    //     .then(data => {\n    //         // your code goes here\n    //     })\n    //     .catch(err => {\n    //         // error handling goes here\n    //     });\n\n\n    ddb.scan({\n        TableName: \"testIndu\",\n        ExpressionAttributeValues: {}\n    }).promise()\n        .then(data => {\n            // your code goes here\n             //return { \"message\": data };\n        })\n        .catch(err => {\n            // error handling goes here\n            console.log(err);\n             return { \"message\": data };\n        });\n\n\n\n   \n};",
         "config": {
           "runtime": "nodejs10.x",
           "handler": "handler",
@@ -32,7 +32,16 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": []
+        "triggers": [],
+        "testCases": {
+          "5ca68832-da6a-4b14-8c6b-47d9f88e818d": {
+            "id": "5ca68832-da6a-4b14-8c6b-47d9f88e818d",
+            "name": "Test event",
+            "functionId": "79977339-8e21-407d-b617-b89d9446bbf7",
+            "event": "{\r\n    \"key1\": \"value1\",\r\n    \"key2\": \"value2\",\r\n    \"key3\": \"value3\"\r\n}",
+            "eventTemplate": "hello-world"
+          }
+        }
       },
       "4bea4c5a-7149-416b-824b-d58bc898e64e": {
         "id": "4bea4c5a-7149-416b-824b-d58bc898e64e",
@@ -43,7 +52,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "1216_hiruddb/ddbcreator.py",
-        "code": "import boto3\nddb = boto3.client(\"dynamodb\")\n\ndef handler(event, context):\n    try:\n        data = ddb.put_item(\n            TableName=\"hirutes\",\n            Item={\n                'id': {\n                    'S': \"123\"\n                },\n                'name': {\n                    'S': \"hiru\"\n                },\n                'role': {\n                    'S': \"qa\"\n                }\n            }\n        )\n    except BaseException as e:\n        print(e)\n        raise(e)\n    \n    return {\"message\": \"Successfully executed\"}\n",
+        "code": "import boto3\nddb = boto3.client(\"dynamodb\")\n\ndef handler(event, context):\n\n    try:\n        data = ddb.scan(\n            TableName=\"hirutest\",\n            ExpressionAttributeValues={\n                ':c': {\n                    'S': \"balck\"\n                },\n                ':p': {\n                    'S': \"500\"\n                }\n            },\n            FilterExpression=\"colour = :c and price < :p\"\n        )\n    except BaseException as e:\n        print(e)\n        raise(e)\n\n\n\n\n    \n    return {\"message\": data}\n",
         "config": {
           "runtime": "python3.6",
           "handler": "handler",
@@ -56,7 +65,16 @@
             "resourceName": "apigusEast1HiruKnew1310put",
             "config": {}
           }
-        ]
+        ],
+        "testCases": {
+          "c9a63ebb-3fe5-48bf-b457-be4685d6d0a6": {
+            "id": "c9a63ebb-3fe5-48bf-b457-be4685d6d0a6",
+            "name": "Test event",
+            "functionId": "4bea4c5a-7149-416b-824b-d58bc898e64e",
+            "event": "{\r\n    \"key1\": \"value1\",\r\n    \"key2\": \"value2\",\r\n    \"key3\": \"value3\"\r\n}",
+            "eventTemplate": "hello-world"
+          }
+        }
       },
       "3056ab7c-9e4b-460f-90f9-e351ec84b6fb": {
         "id": "3056ab7c-9e4b-460f-90f9-e351ec84b6fb",
@@ -82,7 +100,7 @@
         "type": "DynamoDB",
         "config": {
           "mode": 0,
-          "operation": "get",
+          "operation": "scan",
           "table": {
             "arn": "",
             "name": "hirutes",
@@ -96,11 +114,11 @@
           },
           "isGlobalEditMode": false,
           "parameters": {
-            "Key": {
-              "id": "1"
+            "TableName": "hirutes",
+            "ExpressionAttributeValues": {
+              ":kk": ""
             },
-            "Item": {},
-            "ExpressionAttributeValues": {}
+            "FilterExpression": "kk = :kk"
           },
           "triggerParams": {},
           "validator": {
@@ -134,6 +152,76 @@
           "stageName": "Test",
           "stageDeploymentId": "g1kd8w",
           "mode": 1
+        }
+      },
+      "ddbtestIndu": {
+        "name": "ddbtestIndu",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 1,
+          "operation": "scan",
+          "table": {
+            "arn": "arn:aws:dynamodb:us-east-1:318300609668:table/testIndu",
+            "name": "testIndu",
+            "partitionKey": "test",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
+            "sortKeyType": "S",
+            "payPerRequest": true,
+            "mode": 1,
+            "streamArn": "arn:aws:dynamodb:us-east-1:318300609668:table/testIndu/stream/2019-12-16T05:02:51.964"
+          },
+          "isGlobalEditMode": false,
+          "parameters": {
+            "Key": {},
+            "Item": {},
+            "ExpressionAttributeValues": {}
+          },
+          "triggerParams": {},
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
+        }
+      },
+      "ddbhirutest": {
+        "name": "ddbhirutest",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "operation": "scan",
+          "table": {
+            "arn": "",
+            "name": "hirutest",
+            "partitionKey": "price",
+            "partitionKeyType": "S",
+            "hasSortKey": true,
+            "sortKey": "colour",
+            "sortKeyType": "S",
+            "payPerRequest": true,
+            "mode": 0
+          },
+          "isGlobalEditMode": false,
+          "parameters": {
+            "TableName": "hirutest",
+            "ExpressionAttributeValues": {
+              ":c": {
+                "S": "balck"
+              },
+              ":p": {
+                "S": "500"
+              }
+            },
+            "FilterExpression": "colour = :c and price = :p"
+          },
+          "triggerParams": {},
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
         }
       }
     },
@@ -185,7 +273,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1576487257965
+    "lastSave": 1576559077709
   },
   "VCS_STATE": {
     "provider": "GitHub",
